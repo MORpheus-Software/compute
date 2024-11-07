@@ -79,3 +79,4 @@ Follow these steps to deploy the Ollama and Proxy Router setup:
  - more securely capture, store, and use secrets
  - tidy up values.yaml and expose more attributes to allow greater control
  - create seperate repo for building/publishing router docker image.
+ - add docker compose files and instructions somewhere for local implementations
