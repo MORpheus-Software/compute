@@ -19,6 +19,7 @@ spec:
       targetPort: 8082
   type: ClusterIP  # Internal only
 
+---
   # External LoadBalancer Service for port 3333 only
 apiVersion: v1
 kind: Service
