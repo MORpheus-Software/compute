@@ -44,13 +44,13 @@ resource "google_container_node_pool" "primary_nodes" {
   }
 }
 
-# Helm Release Resource
+# Helm Repository Definition
 resource "helm_release" "morphus-lumerin-deployment" {
   name       = "morphus-lumerin-nodes"
-  chart      = "${path.module}/charts/morpheus-lumerin-node"
+  chart      = "morpheus-lumerin-node"   # Name of the chart as defined in the repository index
   version    = "1.0.1"
-  values     = [file("${path.module}/charts/morpheus-lumerin-node/values.yaml")]
-  reset_values = true
+  repository = "https://aether-rise.github.io/charts"  # GitHub Pages URL for the Helm repository
+
   # Pass the dynamic values
   set {
     name  = "proxyRouter.env.WALLET_PRIVATE_KEY"
@@ -76,5 +76,8 @@ resource "helm_release" "morphus-lumerin-deployment" {
     name  = "proxyRouter.env.MOR_TOKEN_ADDRESS"
     value = var.mor_token_address
   }
-  depends_on = [google_container_cluster.primary, google_container_node_pool.primary_nodes]
+
+  reset_values = true
+  depends_on   = [google_container_cluster.primary, google_container_node_pool.primary_nodes]
 }
+
