@@ -1,12 +1,5 @@
 terraform { 
-  cloud { 
-    
-    organization = "morpheus-software" 
-
-    workspaces { 
-      name = "mln-testnet" 
-    } 
-  } 
+  required_version = ">= 1.0.0"
 }
 
 # Configure the Google Cloud provider (provider.tf will also work)

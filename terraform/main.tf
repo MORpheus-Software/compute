@@ -25,7 +25,7 @@ resource "google_container_node_pool" "primary_nodes" {
     oauth_scopes    = ["https://www.googleapis.com/auth/cloud-platform"]
 
     guest_accelerator {
-      type  = "nvidia-tesla-t4"
+      type  = var.gpu_type
       count = 1
       
       gpu_driver_installation_config {
@@ -48,8 +48,20 @@ resource "google_container_node_pool" "primary_nodes" {
 resource "helm_release" "morphus-lumerin-deployment" {
   name       = "morphus-lumerin-nodes"
   chart      = "morpheus-lumerin-node"   # Name of the chart as defined in the repository index
-  version    = "1.0.1"
+  version    = "1.0.5"
   repository = "https://aether-rise.github.io/charts"  # GitHub Pages URL for the Helm repository
+
+  # Pass the image for proxy
+  set {
+    name  = "proxyRouter.image.repository"
+    value = "ghcr.io/aether-rise/proxy"
+  }
+
+  # Pass the tag for proxy image
+  set {
+    name  = "proxyRouter.image.tag"
+    value = "test-latest"
+  }
 
   # Pass the dynamic values
   set {

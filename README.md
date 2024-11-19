@@ -14,30 +14,49 @@ Before beginning, ensure you have the following:
     - used to talk to the cluster after deployment
 4. **google service account credentials**: For provisioning cluster resources
     - this account must have google kubernetes engine and compute engine access
+5. **must be able to use google cloud cli locally**
+    - 
 
 ## Deployment Steps
 
 Follow these steps to deploy the Ollama and Proxy Router setup:
 
-1. **Set Environment Variables**: Configure necessary variables for your deployment.
-    - this will be different depending on if you use local state, remote state, or terraform cloud.
-2. **Initialize Terraform**:
+steps to get google creds:
+    - create service account
+    - delegate service account access to compuute engine, container engine
+    - get credentialfile.json and place in terraform folder
+
+export google creds:
+    - export GOOGLE_APPLICATION_CREDENTIALS=google-credentials.json; 
+
+1. rename terraform.tfvars.example to terraform.tfvars
+2. update the values in tfvars
+
+3. **Initialize Terraform**:
    ```bash
    terraform init
    ```
-3. **Plan the Infrastructure**:
+4. **Plan the Infrastructure**:
    ```bash
    terraform plan
    ```
-4. **Apply the Configuration**:
+5. **Apply the Configuration**:
    ```bash
    terraform apply
    ```
-5. **Retrieve Kubernetes Endpoint IP**: After deployment, get the external IP of the proxy-router service endpoint.
+6. **Retrieve Kubernetes Endpoint IP**: After deployment, get the external IP of the proxy-router service endpoint.
 
 ## Registration Steps
 
 > *In future updates, these steps may be automated.*
+
+install kubernetes cli
+    - google sdk:
+        - gcloud components install kubectl
+    - ubuntu snap:
+        - sudo snap install kubectl --classic
+    - mac brew:
+        - brew install kubectl
 
 1. **Connect to cluster via kubernetes**
     - gcloud container clusters get-credentials mln-cluster --region us-west1
@@ -53,18 +72,21 @@ Follow these steps to deploy the Ollama and Proxy Router setup:
 
 4. **Authorize diamond contract to act on behalf of wallet**:
     - todo
-
-5. **Allowance?**
-    - todo
+    - confirm using et
 
 6. **Register Provider**:
    - Use the following command to register the provider:
+   - confirm using get
 
-7. **Register Model**:
+7. **Register Model**: THIS IS OPTIONAL, ONLY REQUIRED IF YOURE NOT HOSTING A MODEL THAT ALREADY EXISTS AS AN OPTION ON CHAIN ALREADY
    - Register the Llama2 model:
+   - generate model using this bash script:
+        - 
+   - confirm using get
 
 8. **Place a Bid**:
    - Submit a bid:
+   - confirm using get
 
 9. **Test functionality**
     - todo

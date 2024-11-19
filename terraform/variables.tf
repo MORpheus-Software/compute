@@ -47,3 +47,10 @@ variable "mor_token_address" {
   type        = string
 }
 
+variable "gpu_type" {
+  description = "GPU Type that the nodes should use"
+  type        = string
+  default     = "nvidia-tesla-t4"
+}
+
+
