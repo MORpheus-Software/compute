@@ -12,19 +12,25 @@ Before beginning, ensure you have the following:
     - used to create the cluster and deploy the necessary resources
 3. **gcloud CLI**: Installed with the Kubernetes authentication plugin enabled.
     - used to talk to the cluster after deployment
-4. **google service account credentials**: For provisioning cluster resources
+4. **kubernetes cli**
+    - install kubernetes cli
+        - google sdk:
+            - gcloud components install kubectl
+        - ubuntu snap:
+            - sudo snap install kubectl --classic
+        - mac brew:
+            - brew install kubectl
+4. **google service account credentials file saved**: For provisioning cluster resources
     - this account must have google kubernetes engine and compute engine access
-5. **must be able to use google cloud cli locally**
-    - 
+        steps to get google creds: (TODO: provide cli commands)
+        - create service account
+        - delegate service account access to compuute engine, container engine
+        - download credentialfile.json and place in terraform folder
 
 ## Deployment Steps
 
 Follow these steps to deploy the Ollama and Proxy Router setup:
 
-steps to get google creds:
-    - create service account
-    - delegate service account access to compuute engine, container engine
-    - get credentialfile.json and place in terraform folder
 
 export google creds:
     - export GOOGLE_APPLICATION_CREDENTIALS=google-credentials.json; 
@@ -48,25 +54,23 @@ export google creds:
 
 ## Registration Steps
 
-> *In future updates, these steps may be automated.*
-
-install kubernetes cli
-    - google sdk:
-        - gcloud components install kubectl
-    - ubuntu snap:
-        - sudo snap install kubectl --classic
-    - mac brew:
-        - brew install kubectl
-
-1. **Connect to cluster via kubernetes**
+1. **get kubernetes credentials for cluster**
     - gcloud container clusters get-credentials mln-cluster --region us-west1
 
-2. **Expose the Proxy Service**:
+2. **verify kubernetes deployment**
+    - Check pods are running
+        - `kubectl get pod`
+            - should see 2 pods, proxy-router and ollama, both with status of running
+    - Check logs of proxy router
+        `kubectl logs [proxy-router-pod-name-here]`
+            - last few logs should say 'listening for events from diamond'
+
+3. **Expose the Proxy Service**:
    - Forward port 8082 of the proxy service:
      ```bash
-     kubectl port-forward svc/proxy-router 8082:8082
+     kubectl port-forward svc/proxy-router-internal 8082:8082
      ```
-3. **Verify router is working**
+4. **Verify router is working**
     - check kubectl logs
     - verify swagger api http://localhost:8082/swagger/index.html
 

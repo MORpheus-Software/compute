@@ -48,7 +48,7 @@ resource "google_container_node_pool" "primary_nodes" {
 resource "helm_release" "morphus-lumerin-deployment" {
   name       = "morphus-lumerin-nodes"
   chart      = "morpheus-lumerin-node"   # Name of the chart as defined in the repository index
-  version    = "1.0.5"
+  version    = "1.0.7"
   repository = "https://aether-rise.github.io/charts"  # GitHub Pages URL for the Helm repository
 
   # Pass the image for proxy
